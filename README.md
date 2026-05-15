@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="Banner.png" alt="Fries Logo" width="600"/>
+  <img src="Banner.png" alt="Fries Logo" width="148"/>
 
   # Fries
 
