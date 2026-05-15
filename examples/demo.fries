@@ -1,0 +1,128 @@
+# Fries Language Demo
+
+# Arithmetik & Variablen
+let pi = 3.14159
+let radius = 5
+let area = pi * radius * radius
+println("Kreisfläche: " + str(area))
+
+# Mutable Variablen
+var counter = 0
+counter += 1
+counter += 2
+println("Counter: " + str(counter))
+
+# Funktionen & Closures
+let greet = fn(name) { "Hallo, " + name + "!" }
+println(greet("Fries"))
+
+let make_multiplier = fn(factor) {
+  fn(x) { x * factor }
+}
+let double = make_multiplier(2)
+let triple = make_multiplier(3)
+println("8 * 2 = " + str(double(8)))
+println("8 * 3 = " + str(triple(8)))
+
+# Rekursion
+let fib = fn(n) {
+  if n <= 1 { n } else { fib(n - 1) + fib(n - 2) }
+}
+println("Fib(10): " + str(fib(10)))
+
+# ---- Listen-Features ----
+
+# Einfache Range: [start..end]
+let nums = [1..10]
+println("1..10: " + str(nums))
+
+# Countdown
+let down = [10..1]
+println("10..1: " + str(down))
+
+# Arithmetische Folge: [start, step, ..., end]
+let odds = [1, 2, ..., 10]
+println("Ungerade: " + str(odds))
+
+let by3 = [0, 3, ..., 15]
+println("Dreier: " + str(by3))
+
+# Einfache ..., range mit Schritt 1
+let easy = [1, ..., 5]
+println("1 bis 5: " + str(easy))
+
+# Klassische Listen
+let xs = [42, 7, 13, 99, 1]
+println("Liste: " + str(xs))
+println("Länge: " + str(len(xs)))
+println("Erstes: " + str(head(xs)))
+
+# List Comprehension
+let doubled = [x * 2 for x in [1..5]]
+println("Verdoppelt: " + str(doubled))
+
+# Gefilterte Comprehension
+let evens = [x for x in [1..10] if x % 2 == 0]
+println("Gerade: " + str(evens))
+
+# SQRT-Squares
+let squares = [x * x for x in [1..5]]
+println("Quadrate: " + str(squares))
+
+# For-Schleife
+var summe = 0
+for n in [1..10] {
+  summe += n
+}
+println("Summe 1-10: " + str(summe))
+
+# ADTs & Pattern Matching
+type Form = Kreis(radius) | Rechteck(breite, hoehe) | Quadrat(seite)
+
+let kreis = Kreis(5)
+let recht = Rechteck(4, 6)
+let quadrat = Quadrat(3)
+
+let flaeche = fn(form) {
+  match form {
+    Kreis(r) => pi * r * r,
+    Rechteck(b, h) => b * h,
+    Quadrat(s) => s * s
+  }
+}
+
+println("Fläche Kreis: " + str(flaeche(kreis)))
+println("Fläche Rechteck: " + str(flaeche(recht)))
+println("Fläche Quadrat: " + str(flaeche(quadrat)))
+
+# else if statt elif
+let bewerte = fn(n) {
+  if n >= 90 { "Sehr gut" }
+  else if n >= 75 { "Gut" }
+  else if n >= 60 { "Befriedigend" }
+  else if n >= 50 { "Ausreichend" }
+  else { "Nicht bestanden" }
+}
+println("Note 92: " + bewerte(92))
+println("Note 72: " + bewerte(72))
+println("Note 45: " + bewerte(45))
+
+# Do-Blöcke
+let ergebnis = do {
+  let a = 10
+  let b = 20
+  let c = 30
+  a + b + c
+}
+println("Do-Block: " + str(ergebnis))
+
+# While-Schleife
+var i = 1
+var fakultaet = 1
+while i <= 5 {
+  fakultaet *= i
+  i += 1
+}
+println("5! = " + str(fakultaet))
+
+println("=== Fertig ===")
