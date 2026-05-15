@@ -159,6 +159,7 @@ impl Lexer {
         }
         let text: String = self.source[start..self.pos].iter().collect();
         let kind = match text.as_str() {
+            "load" => TokenKind::Load,
             "let" => TokenKind::Let,
             "var" => TokenKind::Var,
             "fn" => TokenKind::Fn,
@@ -352,13 +353,13 @@ mod tests {
 
     #[test]
     fn test_keywords() {
-        let tokens = tokenize("let var fn if else elif return match type do while for in null");
+        let tokens = tokenize("let var fn if else elif return match type do while for in null load");
         assert_eq!(tokens, vec![
             TokenKind::Let, TokenKind::Var, TokenKind::Fn,
             TokenKind::If, TokenKind::Else, TokenKind::Elif,
             TokenKind::Return, TokenKind::Match, TokenKind::Type,
             TokenKind::Do, TokenKind::While, TokenKind::For,
-            TokenKind::In, TokenKind::Null, TokenKind::Eof,
+            TokenKind::In, TokenKind::Null, TokenKind::Load, TokenKind::Eof,
         ]);
     }
 

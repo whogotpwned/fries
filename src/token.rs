@@ -68,6 +68,7 @@ pub enum TokenKind {
     DotDotDot,
 
     // Keywords
+    Load,
     Let,
     Var,
     Fn,
@@ -129,6 +130,7 @@ impl std::fmt::Display for TokenKind {
             TokenKind::Pipe => write!(f, "|"),
             TokenKind::Underscore => write!(f, "_"),
             TokenKind::DotDotDot => write!(f, "..."),
+            TokenKind::Load => write!(f, "load"),
             TokenKind::Let => write!(f, "let"),
             TokenKind::Var => write!(f, "var"),
             TokenKind::Fn => write!(f, "fn"),

@@ -2,6 +2,7 @@ use std::rc::Rc;
 use std::cell::RefCell;
 
 use crate::ast::{Block, Expr, Pattern};
+use crate::bibs;
 use crate::lexer::Lexer;
 use crate::parser::Parser;
 use crate::token::TokenKind;
@@ -396,6 +397,15 @@ impl Evaluator {
                             Value::BuiltinFn(format!("__ctor_{}", variant.name)),
                         );
                     }
+                }
+                Ok(Value::Null)
+            }
+
+            Expr::Load(name) => {
+                let bindings = bibs::get_bib(name)
+                    .ok_or_else(|| EvalError::Runtime(format!("Unknown bib: '{name}'")))?;
+                for (key, val) in bindings {
+                    env.borrow_mut().define(key.to_string(), true, val);
                 }
                 Ok(Value::Null)
             }

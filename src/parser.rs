@@ -78,6 +78,7 @@ impl Parser {
             Some(TokenKind::For) => self.parse_for(),
             Some(TokenKind::Match) => self.parse_match(),
             Some(TokenKind::Type) => self.parse_type_decl(),
+            Some(TokenKind::Load) => self.parse_load(),
             Some(TokenKind::Do) => self.parse_do(),
             Some(TokenKind::Fn) => {
                 if matches!(self.tokens.get(self.pos + 1), Some(t) if matches!(t.kind, TokenKind::Ident(_))) {
@@ -319,6 +320,12 @@ impl Parser {
         } else {
             Ok(Vec::new())
         }
+    }
+
+    fn parse_load(&mut self) -> Result<Expr, String> {
+        self.advance();
+        let name = self.expect_ident()?;
+        Ok(Expr::Load(name))
     }
 
     fn parse_do(&mut self) -> Result<Expr, String> {

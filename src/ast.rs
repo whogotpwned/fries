@@ -115,6 +115,8 @@ pub enum Expr {
         name: String,
         variants: Vec<TypeVariant>,
     },
+
+    Load(String),
 }
 
 #[derive(Debug, Clone, PartialEq)]

@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::fmt;
 use std::rc::Rc;
 use std::cell::RefCell;
@@ -12,6 +13,7 @@ pub enum Value {
     String(String),
     Bool(bool),
     List(Rc<RefCell<Vec<Value>>>),
+    Dict(Rc<RefCell<HashMap<String, Value>>>),
     BuiltinFn(String),
     Fn {
         name: Option<String>,
@@ -35,6 +37,7 @@ impl Value {
             Value::Float(n) => *n != 0.0,
             Value::String(s) => !s.is_empty(),
             Value::List(l) => !l.borrow().is_empty(),
+            Value::Dict(d) => !d.borrow().is_empty(),
             Value::Variant { .. } => true,
             Value::BuiltinFn(_) => true,
             Value::Fn { .. } => true,
@@ -49,6 +52,7 @@ impl Value {
             Value::String(_) => "string",
             Value::Bool(_) => "bool",
             Value::List(_) => "list",
+            Value::Dict(_) => "dict",
             Value::BuiltinFn(_) => "function",
             Value::Fn { .. } => "function",
             Value::Variant { .. } => "variant",
@@ -83,6 +87,13 @@ impl fmt::Display for Value {
                     let formatted: Vec<String> = fields.iter().map(|v| v.to_string()).collect();
                     write!(f, "{}({})", name, formatted.join(", "))
                 }
+            }
+            Value::Dict(map) => {
+                let map = map.borrow();
+                let entries: Vec<String> = map.iter()
+                    .map(|(k, v)| format!("{k}: {v}"))
+                    .collect();
+                write!(f, "{{{}}}", entries.join(", "))
             }
         }
     }

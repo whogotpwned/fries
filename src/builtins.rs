@@ -1,3 +1,4 @@
+use crate::bibs;
 use crate::eval::EvalError;
 use crate::value::{Environment, Value};
 use std::cell::RefCell;
@@ -139,6 +140,9 @@ impl crate::eval::Evaluator {
             }
             "reduce" => {
                 Err(EvalError::Runtime("Use for loops instead of reduce()".into()))
+            }
+            _ if name.starts_with("json_") => {
+                bibs::call_json_builtin(name, args)
             }
             _ if name.starts_with("__ctor_") => {
                 let variant_name = name.strip_prefix("__ctor_").unwrap();
